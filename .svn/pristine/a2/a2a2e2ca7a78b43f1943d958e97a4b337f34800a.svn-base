@@ -1,0 +1,63 @@
+package com.oracle.ebp.controller;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.oracle.ebp.domain.po.User;
+import com.oracle.ebp.exception.UserException;
+import com.oracle.ebp.service.impl.UserService;
+import com.oracle.ebp.util.MD5Util;
+
+@Controller
+public class UserController {
+	@Resource
+	private UserService service;
+	@RequestMapping("/userLoginPage")
+	public String userLoginPage(){
+		
+		return "/user/login";
+	}
+	@RequestMapping("/userRegPage")
+	public String userRegPage(){
+		
+		return "/user/register";
+	}
+	
+	@RequestMapping(value="/userLogin")
+	public String userLogin(String userName,String password,Model model){
+		User userInput = new User();
+		
+		userInput.setUserName(MD5Util.getMD5(password));
+		userInput.setPassword(password);
+		//根据用户名和密码进行查询
+		List<User> list = service.query(userInput);
+		if (list.isEmpty()) {
+			try {
+				throw new UserException("没有此用户，请验证后再登录");
+			} catch (UserException e) {
+				
+				model.addAttribute("errors", e.getMessage());
+				return "/user/login";
+			}
+		}
+		if (list.size()>1) {
+			try {
+				throw new UserException("用户有重复，请检查后再登录");
+			} catch (UserException e) {
+				model.addAttribute("errors", e.getMessage());
+				return "/user/login";
+			}
+		}
+
+		model.addAttribute("user", list.get(0));
+		
+		return "/user/index";
+	}
+
+	
+}

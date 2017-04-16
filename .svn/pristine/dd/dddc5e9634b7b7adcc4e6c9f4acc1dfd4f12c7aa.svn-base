@@ -1,0 +1,43 @@
+package com.oracle.ebp.util;
+
+public class Perchase {
+	private Integer tid;
+	private Integer buyNums;
+	private Integer price;
+	public Integer getTid() {
+		return tid;
+	}
+	public void setTid(Integer tid) {
+		this.tid = tid;
+	}
+	public Integer getBuyNums() {
+		return buyNums;
+	}
+	public void setBuyNums(Integer buyNums) {
+		this.buyNums = buyNums;
+	}
+	public Integer getPrice() {
+		return price;
+	}
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+	@Override
+	public String toString() {
+		return "Perchase [tid=" + tid + ", buyNums=" + buyNums + ", price="
+				+ price + "]";
+	}
+	public Perchase(Integer tid, Integer buyNums, Integer price) {
+		super();
+		this.tid = tid;
+		this.buyNums = buyNums;
+		this.price = price;
+	}
+	public Perchase() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+}

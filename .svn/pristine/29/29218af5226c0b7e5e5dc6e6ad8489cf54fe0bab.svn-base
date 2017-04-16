@@ -1,0 +1,26 @@
+package com.oracle.ebp.domain.po;
+
+public class User {
+	
+	private Integer uid;
+	
+	private String userName;
+
+	public Integer getUid() {
+		return uid;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUid(Integer uid) {
+		this.uid = uid;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	
+}

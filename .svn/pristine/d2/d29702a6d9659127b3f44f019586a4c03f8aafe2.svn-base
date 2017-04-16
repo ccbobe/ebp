@@ -1,0 +1,48 @@
+package com.oracle.ebp.controller;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.oracle.ebp.domain.PageBean;
+import com.oracle.ebp.domain.po.User;
+import com.oracle.ebp.service.impl.UserManagerService;
+@Controller
+public class UserManagerController {
+	
+	@Resource
+	private UserManagerService userManagerService;
+	
+	@RequestMapping("/updateStatus")
+	public @ResponseBody Model updateStatus(HttpServletRequest request,HttpServletResponse response){
+		
+		return null;
+	}
+	
+	/**
+	 * 使用ajax请求
+	 * @param request
+	 * @param pageBean
+	 * @param Model
+	 */
+	@RequestMapping("/managerUsers")
+	@ResponseBody
+	public ModelAndView queryByPage(HttpServletRequest request,PageBean<User> pageBean,Model model ){
+		ModelAndView view=new ModelAndView();
+		List<User> lists = userManagerService.query(pageBean);
+		view.addObject("lists",lists);
+		view.setViewName("admin/adminUser");
+		request.setAttribute("lists", lists);
+		return view;
+	}
+	
+	
+}

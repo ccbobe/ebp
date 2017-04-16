@@ -1,0 +1,13 @@
+package com.oracle.ebp.dao.impl;
+
+import java.util.List;
+
+import com.oracle.ebp.dao.BaseDAO;
+import com.oracle.ebp.domain.po.User;
+
+public interface IUserDao extends BaseDAO<User,Integer> {
+	
+	public List<User> queryAll();
+	
+	public List<User> queryUser (String userName,String password);
+}

@@ -1,0 +1,50 @@
+package com.oracle.dao.test;
+
+import java.util.List;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.oracle.ebp.dao.impl.IAdminUserDao;
+import com.oracle.ebp.dao.impl.IUserDao;
+import com.oracle.ebp.domain.po.AdminUser;
+import com.oracle.ebp.domain.po.User;
+
+public class TestDao {
+	
+	private	ApplicationContext context=new ClassPathXmlApplicationContext("spring/applicationContext.xml");
+	
+	
+
+	private IUserDao userDao;
+	
+	
+	private IAdminUserDao adminUserDao;
+	
+	@Test
+	public void test(){
+		
+		
+		userDao = context.getBean(IUserDao.class);
+	    List<User> list = userDao.queryAll();
+		for (User user : list) {
+			System.out.println(user.getUserName());
+		}
+	}
+	
+	@Test
+	public void testAdminLogin(){
+		adminUserDao=context.getBean(IAdminUserDao.class);
+		AdminUser user=new AdminUser();
+		user.setPassword("123456");
+		user.setUserName("admin");
+		
+		 List<AdminUser> userLogin = adminUserDao.adminUserLogin(user);
+		
+		System.out.println(userLogin.get(0).getUserName());
+		
+	}	
+	
+}

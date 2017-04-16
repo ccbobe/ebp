@@ -1,0 +1,98 @@
+package com.oracle.dao.test;
+
+import java.util.List;
+
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.oracle.ebp.dao.impl.IAdminUserDao;
+import com.oracle.ebp.dao.impl.IUserDao;
+import com.oracle.ebp.domain.PageBean;
+import com.oracle.ebp.domain.po.AdminUser;
+import com.oracle.ebp.domain.po.User;
+
+public class TestDao {
+	
+	private	ApplicationContext context=new ClassPathXmlApplicationContext("spring/applicationContext.xml");
+	
+	
+
+	private IUserDao userDao;
+	
+	
+	private IAdminUserDao adminUserDao;
+	
+	
+	
+	@Test
+	public void testSelectPage(){
+		userDao=context.getBean(IUserDao.class);
+		User user=new User();
+			user.setUid(1);
+			user.setStatus(0);
+		PageBean<User> pageBean =new PageBean<User>();
+		pageBean.setCurrentPage(5);
+		pageBean.setPageCount(5);
+		 List<User> list = userDao.queryByPage(pageBean.getCurrentPage(),pageBean.getPageCount() );
+				
+		for (User u : list) {
+			System.out.println(u.getName());
+		}
+	}
+	
+	
+	
+	@Test
+	public void testUpdateStatus(){
+		userDao=context.getBean(IUserDao.class);
+		User user=new User();
+			user.setUid(1);
+			user.setStatus(0);
+		
+		int status = userDao.updateStatus(user);
+		System.out.println(status);
+	}
+	
+	
+	
+	@Test
+	public void test(){
+		
+		
+		userDao = context.getBean(IUserDao.class);
+	    List<User> list = userDao.queryAll();
+		for (User user : list) {
+			System.out.println(user.getUserName());
+		}
+	}
+	
+	@Test
+	public void testAdminLogin(){
+		adminUserDao=context.getBean(IAdminUserDao.class);
+		AdminUser user=new AdminUser();
+		user.setPassword("123456");
+		user.setUserName("admin");
+		
+		 List<AdminUser> userLogin = adminUserDao.adminUserLogin(user);
+		
+		System.out.println(userLogin.get(0).getUserName());
+		
+	}	
+	@Test
+	public void testUserAdd(){
+		userDao = context.getBean(IUserDao.class);
+		User user = new User();
+		user.setUserName("zhangsan");
+		user.setTelno("13483143187");
+		user.setEmail("88@163.com");
+		user.setPassword("123456");
+		System.out.println(user);
+		int a =userDao.persist(user);
+		System.out.println(a);
+		
+	}
+	
+	
+	
+}

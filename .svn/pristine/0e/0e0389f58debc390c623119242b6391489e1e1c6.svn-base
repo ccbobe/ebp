@@ -1,0 +1,15 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+<c:set  var="title" scope="request" value="票据管理" />
+
+<%@ include file="/WEB-INF/views/common/layout/layout.jsp" %>
+
+<link rel="stylesheet" href="${basePath}css/admincommon.css">
+<link rel="stylesheet" href="${basePath}css/adminaddTicket.css">
+<script src="${basePath}js/admincommon.js"></script>
+<script src="${basePath}js/adminTicket.js"></script>
+<script src="${basePath}js/jquery-1.12.1.min.js"></script>
+
+

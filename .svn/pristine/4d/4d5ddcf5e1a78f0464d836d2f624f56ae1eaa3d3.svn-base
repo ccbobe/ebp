@@ -1,0 +1,6 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+
+<div>
+    <div>Hi 欢迎访问跌派网！&nbsp;&nbsp;<a href="userModify">[我的碟派]</a>&nbsp;&nbsp;&nbsp;<a href="">[我的订单]</a></div>
+    <div class="login_r"><a href="login.html">登录</a>丨<a href="zhuce.html">注册</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/admin/close.png" alt="">&nbsp;<a href="#">退出</a></div>
+</div>

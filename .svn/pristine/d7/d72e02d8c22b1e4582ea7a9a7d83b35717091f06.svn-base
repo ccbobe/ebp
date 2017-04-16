@@ -1,0 +1,52 @@
+package com.oracle.ebp.controller;
+
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import sun.text.resources.FormatData;
+
+import com.oracle.ebp.domain.po.Ticket;
+import com.oracle.ebp.service.impl.TicketService;
+@Controller
+public class TicketController {
+	@Resource
+	private TicketService ticketService;
+	/**
+	 * @author zh
+	 * @return 票项查询页面
+	 */
+	@RequestMapping("/ticketShowInfo")
+	public String ticketShowInfo(String dateSelect,HttpServletRequest req){
+		if (dateSelect ==null) {
+			try {
+				//日期类型常用
+				
+				Date date = new Date();
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String strNow = sdf.format(date);
+			
+				HttpSession session = req.getSession();
+				
+				List<Ticket> list = ticketService.query();
+				System.out.println(list.get(0));
+				session.setAttribute("tickets", list);
+				session.setAttribute("currentTime", strNow);
+			} catch (Exception e) {
+				req.setAttribute("error", e.getMessage());
+			}
+		}
+		
+		return "/user/ticket";
+	}
+}

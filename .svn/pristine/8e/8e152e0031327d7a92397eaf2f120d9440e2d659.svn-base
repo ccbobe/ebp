@@ -1,0 +1,252 @@
+package com.oracle.dao.test;
+
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.oracle.ebp.dao.impl.IAdminUserDao;
+import com.oracle.ebp.dao.impl.IOrdersManagerDao;
+import com.oracle.ebp.dao.impl.ITicketDAO;
+import com.oracle.ebp.dao.impl.IUserDao;
+import com.oracle.ebp.domain.PageBean;
+import com.oracle.ebp.domain.po.AdminUser;
+import com.oracle.ebp.domain.po.OrdersVO;
+import com.oracle.ebp.domain.po.Ticket;
+import com.oracle.ebp.domain.po.TicketPO;
+import com.oracle.ebp.domain.po.User;
+import com.oracle.ebp.domain.po.UserVO;
+import com.oracle.ebp.service.BaseService;
+import com.oracle.ebp.service.impl.AdminUserService;
+import com.oracle.ebp.service.impl.TicketService;
+
+public class TestDao {
+	
+	private	ApplicationContext context=new ClassPathXmlApplicationContext("spring/applicationContext.xml");
+
+	private IUserDao userDao;
+
+	private IAdminUserDao adminUserDao;
+	
+	private TicketService tService;
+	
+	private IOrdersManagerDao ordersManagerDao;
+	
+	@SuppressWarnings("rawtypes")
+	private BaseService baseService;
+	
+	
+	@Test
+	public void testOrderQueryByCommitTime() throws Exception{
+		ordersManagerDao=context.getBean(IOrdersManagerDao.class);
+		OrdersVO vo=new OrdersVO();
+		//vo.setEndTime("2016-08-14 10:20:28");
+		vo.setCurrentPage(0);
+		vo.setPageCount(5);
+		List<OrdersVO> list = ordersManagerDao.queryByCommitTime(vo);
+		int count = ordersManagerDao.getTotalCount();
+		for (OrdersVO ordersVO : list) {
+			System.out.println(ordersVO.getUserName());
+		}
+
+		System.out.println(count);
+	
+	}
+	
+	@Test
+	public void testSelectCondition() throws Exception{//OK
+		userDao=context.getBean(IUserDao.class);
+		UserVO vo =new UserVO();
+		vo.setCurrentPage(0);
+		vo.setPageCount(5);
+		vo.setIdCard("13648783263278847X");
+		vo.setUserNameOrName("bobe");
+		List<User> list = userDao.queryByCondition(vo);
+	
+		for (User user : list) {
+			System.out.println(user.getUserName()+"   "+user.getIdCard()   );
+		}
+		
+	
+	}
+	
+	@Test
+	public void testSelectLikeVague() throws Exception{//OK
+		userDao=context.getBean(IUserDao.class);
+		UserVO vo =new UserVO();
+		//vo.setCurrentPage(0);
+		//vo.setPageCount(8);
+		
+		//vo.setUserNameOrName("bobe");
+		//vo.setIdCard("g");
+		//vo.setUserNameOrName("er");
+		//vo.setUserNameOrName("bo");
+		//vo.setAge(1);
+		List<User> list = userDao.queryByVague(vo);
+	
+		for (User user : list) {
+			System.out.println(user.getUserName()+"   "+user.getIdCard() +"sex  "+ user.getGender()+"age"+user.getAge() );
+		}
+	
+	
+	}
+	
+
+
+	@Test
+	public void testSelectPage(){
+		userDao=context.getBean(IUserDao.class);
+		User user=new User();
+			user.setUid(1);
+			user.setStatus(0);
+		PageBean<User> pageBean =new PageBean<User>();
+		pageBean.setCurrentPage(5);
+		pageBean.setPageCount(5);
+		 List<User> list = userDao.queryByPage(pageBean.getCurrentPage(),pageBean.getPageCount() );
+				
+		for (User u : list) {
+			System.out.println(u.getName());
+		}
+	}
+	
+	
+	
+	@Test
+	public void testUpdateStatus(){
+		userDao=context.getBean(IUserDao.class);
+		User user=new User();
+			user.setUid(1);
+			user.setStatus(0);
+		
+		int status = userDao.updateStatus(user);
+		System.out.println(status);
+	}
+	
+	
+	
+	@Test
+	public void test(){
+		
+		
+		userDao = context.getBean(IUserDao.class);
+	    List<User> list = userDao.queryAll();
+		for (User user : list) {
+			System.out.println(user.getUserName());
+		}
+	}
+	
+	@Test
+	public void testAdminLogin(){
+		adminUserDao=context.getBean(IAdminUserDao.class);
+		AdminUser user=new AdminUser();
+		user.setPassword("123456");
+		user.setUserName("admin");
+		
+		 List<AdminUser> userLogin = adminUserDao.adminUserLogin(user);
+		
+		System.out.println(userLogin.get(0).getUserName());
+		
+	}	
+	@Test
+	public void testUserAdd(){
+		userDao = context.getBean(IUserDao.class);
+		User user = new User();
+		user.setUserName("zhangsan");
+		user.setTelno("13483143187");
+		user.setEmail("88@163.com");
+		user.setPassword("123456");
+		System.out.println(user);
+		int a =userDao.persist(user);
+		System.out.println(a);
+		
+	}
+	@Test
+	public void testUpdateUser(){
+		userDao =context.getBean(IUserDao.class);
+		User user = new User();
+		user.setUid(14);
+		user.setUserName("zhangsan");
+		user.setTelno("13455555587");
+		user.setEmail("88@163.com");
+		user.setPassword("22222");
+		user.setName("张浩");
+		user.setIdCard("111111111111111");
+		user.setGender(0);
+		user.setAge(23);
+		user.setAddress("通州北");
+		userDao.updateUser(user);
+	}
+	
+	private ITicketDAO ticketDAO;
+	
+	
+	@Test
+	public void testPersistTicket(){
+		ticketDAO=context.getBean(ITicketDAO.class);
+		Ticket ticket =new Ticket();
+		ticket.setTid(21);
+		ticket.setDescs("李自成");
+		ticket.setPrice(56.8);
+		ticket.setStatus(1);
+		int s = ticketDAO.persist(ticket);
+		Assert.assertTrue(s==1);
+	}
+	
+	
+	@Test
+	public void testPersist(){
+		Ticket ticket=new Ticket();
+		ticket.setStatus(1);
+		ticket.setDescs("大闹天宫");
+		ticket.setBalance(300);
+		ticket.setBalance(56);
+		ITicketDAO iTicketDAO = context.getBean(ITicketDAO.class);
+		iTicketDAO.persist(ticket);
+	}
+	
+	
+	@Test
+	public void testUpdateTicketStatus(){
+		Ticket ticket=new Ticket();
+		ticket.setStatus(1);
+		ticket.setDescs("东奥的故事");
+		ticket.setTid(21);
+		ITicketDAO iTicketDAO = context.getBean(ITicketDAO.class);
+		//iTicketDAO.updateStatus(ticket);
+		
+		//iTicketDAO.update(ticket);
+		
+		iTicketDAO.remove(ticket);
+		
+	}
+	
+	
+	@Test
+	public void testquerybyPage() throws Exception{
+		PageBean<Ticket> pageBean=new PageBean<Ticket>();
+		Ticket ticket=new Ticket();
+		pageBean.setCurrentPage(5);
+		pageBean.setPageCount(5);
+		TicketPO ticketPO=new TicketPO();
+		ticketPO.setTicket(ticket);
+		ITicketDAO iTicketDAO = context.getBean(ITicketDAO.class);
+		List<Ticket> list = iTicketDAO.queryByUserNameOrOther(0,5 ,ticket);
+		for (Ticket t : list) {
+			System.out.println(t.getDescs());
+		}
+
+	}
+@Test	
+	public void testTicketQueryInfo() throws Exception{
+	
+		List<Ticket> list = tService.query();
+		System.out.println(list.get(0));
+}	
+	
+	
+	
+	
+	
+}

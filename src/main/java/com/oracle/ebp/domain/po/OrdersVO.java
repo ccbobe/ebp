@@ -1,0 +1,117 @@
+package com.oracle.ebp.domain.po;
+
+public class OrdersVO {
+	
+	private int oid;
+	private String descs;
+	private String commitTime;
+	private Double amount;
+	private String userName;
+	private String name;
+	private String idCard;
+	private String userNameOrName;
+	private String startTime;
+	private String endTime;
+	private int currentPage;
+	private int pageCount=5;
+	
+	public String getUserNameOrName() {
+		return userNameOrName;
+	}
+	
+	public void setUserNameOrName(String userNameOrName) {
+		this.userNameOrName = userNameOrName;
+	}
+	
+	
+	public int getCurrentPage() {
+		return currentPage;
+	}
+	public int getPageCount() {
+		return pageCount;
+	}
+	
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+	
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
+	
+	public int getOid() {
+		return oid;
+	}
+	
+	public String getDescs() {
+		return descs;
+	}
+	
+	public String getCommitTime() {
+		return commitTime;
+	}
+	
+	public Double getAmount() {
+		return amount;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getIdCard() {
+		return idCard;
+	}
+	public void setOid(int oid) {
+		this.oid = oid;
+	}
+	public void setDescs(String descs) {
+		this.descs = descs;
+	}
+	public void setCommitTime(String commitTime) {
+		this.commitTime = commitTime;
+	}
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
+	}
+	public String getStartTime() {
+		return startTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	@Override
+	public String toString() {
+		return "OrdersVO [oid=" + oid + ", descs=" + descs + ", commitTime="
+				+ commitTime + ", amount=" + amount + ", userName=" + userName
+				+ ", name=" + name + ", idCard=" + idCard + ", userNameOrName="
+				+ userNameOrName + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", currentPage=" + currentPage + ", pageCount="
+				+ pageCount + "]";
+	}
+	
+	
+	
+	
+	
+}

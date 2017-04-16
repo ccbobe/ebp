@@ -1,0 +1,48 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set  var="title" scope="request" value="订单管理" />
+<c:set  var="mainbody" scope="request" value="adminOrderbody.jsp" />
+
+<%@ include file="/WEB-INF/views/admin/common/layout/layout.jsp" %>
+
+
+
+<link rel="stylesheet" href="css/admincommon.css">
+<link rel="stylesheet" href="css/adminOder.css">
+
+<script    type="text/javascript"   src="js/admincommon.js"></script>
+<script type="text/javascript"  src="js/jquery-1.12.1.min.js" ></script>
+
+<script type="text/javascript">
+
+			
+	
+	 //修改用户登录权限
+	/*  function updateStatus(uid,s){
+	 		if(s==1){
+	 			$("#opt"+uid).val("禁用");
+	 		}else{
+	 			$("#opt"+uid).val("启用");
+	 		}
+	 		$.post("updateStatus",{//传递的参数
+			uid:uid,
+			status:s
+		},
+			function(data){
+			//当数据相应成功时操作以下内容
+				$("#status"+uid).html(data);
+				if(status==1){
+					$("#opt"+uid).val("禁用");
+				}else{
+					$("#opt"+uid).val("启用");
+				}
+				//实现页面刷新
+				$("#content_r").load("managerUsers");
+			});
+		
+		}; */
+		
+		
+	
+</script>

@@ -1,0 +1,8 @@
+package com.oracle.ebp.dao.impl;
+
+import com.oracle.ebp.dao.BaseDAO;
+import com.oracle.ebp.domain.po.User;
+
+public interface IUserDao extends BaseDAO<User,Integer> {
+ 
+}

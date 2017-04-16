@@ -1,0 +1,52 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+<c:set  var="title" scope="request" value="票据管理" />
+<c:set  var="mainbody" scope="request" value="adminTicketbody.jsp" />
+
+<%@ include file="/WEB-INF/views/common/layout/layout.jsp" %>
+
+<link rel="stylesheet" href="css/admincommon.css">
+<link rel="stylesheet" href="css/adminaddTicket.css">
+<script src="${basePath}js/admincommon.js"></script>
+<script src="${basePath}js/adminTicket.js"></script>
+<script src="${basePath}js/jquery-1.12.1.min.js"></script>
+<div id="page"></div>
+<link rel="stylesheet" href="css/jquery.page.css">
+<script type="text/javascript" src="js/jquery.page.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#page").Page({
+	  totalPages: 9,//分页总数
+	  liNums: 7,//分页的数字按钮数(建议取奇数)
+	  activeClass: 'activP', //active 类样式定义
+	  callBack : function(page){
+			//console.log(page)
+	  }
+  });
+	})
+</script>
+<script type="text/javascript">
+	//根据时间查询
+		function ajaxTicketByTime(){
+			var start=$("#start").val();
+			var end=$("#end").val();
+			$.ajax({
+				type:"post",
+				url:"queryTicketByTime",
+				data:{
+					"beginTime":start,
+					"endTime":end
+				},
+				async:true,
+				success:function(data){
+					$("#content_r").html(data);				
+				}
+			});
+		}
+</script>
+<script type="text/javascript" src="js/jedate.js"  >
+</script>
+<script type="text/javascript" src="js/bootstrap.min.js"  >
+</script>

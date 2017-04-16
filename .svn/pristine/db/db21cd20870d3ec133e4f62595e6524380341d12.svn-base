@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+
+<configuration> 
+
+	<!-- 配置别名 -->
+	<typeAliases>
+		<typeAlias alias="User" type="com.oracle.ebp.domain.po.User"/>
+		<typeAlias type="com.oracle.ebp.domain.PageBean"  alias="PageBean" />	
+	</typeAliases> 
+
+
+	<!-- 环境集 -->
+<!-- 	<environments default="development"> 
+		环境，数据库的连接
+		<environment id="development"> 
+			事务管理器
+			<transactionManager type="JDBC"/> 
+			数据源
+			<dataSource type="POOLED"> 
+				<property name="driver" value="com.mysql.jdbc.Driver"/> 
+				<property name="url" value="jdbc:mysql://localhost:3306/ebp"/> 
+				<property name="username" value="root"/> 
+				<property name="password" value="123456"/> 
+			</dataSource> 
+		</environment> 
+	</environments>  -->
+	
+	<!-- <mappers> 
+		加载映射语句配置文件：XXXMapper.xml
+		<mapper resource=""/> 
+	</mappers>  -->
+	
+</configuration>
+

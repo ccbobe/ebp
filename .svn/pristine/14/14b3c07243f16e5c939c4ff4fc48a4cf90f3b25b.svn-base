@@ -1,0 +1,51 @@
+package com.oracle.ebp.service;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.oracle.ebp.exception.UserException;
+
+public interface BaseService<T,PK extends Serializable> {
+	
+	/**
+	 * @author bobe
+	 * @deprecated:添加
+	 * @param entity
+	 * @return
+	 */
+	int persist(T entity) throws Exception ;
+	
+	/**
+	 * @deprecated:根据主键id移除实体
+	 * @param pk
+	 * @return {@code int}:受影响行数
+	 */
+	int remove(PK pk) throws Exception;
+	
+	/**
+	 * @deprecated:根据实体信息移除实体
+	 * @param entity
+	 * @return {@code int}:受影响行数
+	 */
+	int remove(T entity)throws Exception ;
+	
+	/**
+	 * @deprecated:更新实体
+	 * @param entity
+	 * @throws UserException 
+	 */
+	void update(T entity) throws Exception;
+	
+	/**
+	 * @deprecated:查询全部
+	 * @return {@code List<T>}:返回实体对象
+	 */
+	List<T> query() throws Exception ;
+	
+	/**
+	 * @deprecated:按条件查询
+	 * @param entity
+	 * @return {@code List} 返回实体对象集合
+	 */
+	List<T> query(T entity) throws Exception ;
+}

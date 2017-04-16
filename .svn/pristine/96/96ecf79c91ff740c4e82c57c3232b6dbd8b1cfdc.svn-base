@@ -1,0 +1,77 @@
+package com.oracle.ebp.controller;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.oracle.ebp.domain.PageBean;
+import com.oracle.ebp.domain.po.OrdersVO;
+import com.oracle.ebp.service.impl.OrderManagerService;
+@Controller
+public class OrderManagerController {
+	
+	private Logger logger=LoggerFactory.getLogger(OrderManagerController.class);
+	
+	@Resource
+	private OrderManagerService orderManagerService;
+	
+	@RequestMapping("/adminOrderBody")
+	public String adminOrderBody(OrdersVO vo,HttpServletRequest request){
+		logger.info("返回主体内容=====>"+":Method"+"adminOrderBody");
+		PageBean<OrdersVO> pageBean=new PageBean<OrdersVO>();
+		System.out.println(vo);
+		List<OrdersVO> list=null;
+		try {
+			list = orderManagerService.queryByOrderInfos(vo);
+		} catch (Exception e) {
+			logger.error("查询出错"+e);
+		}
+		pageBean.setPageData(list);
+		pageBean.setTotalCount(list.size());
+		request.setAttribute("list", list);	
+		return "admin/mainbody/adminOrderbody";
+	}
+	
+	
+	@RequestMapping("/adminOrderByTime")
+	public String adminOrderByTime(OrdersVO vo,HttpServletRequest request){
+		PageBean<OrdersVO> pageBean=new PageBean<>();
+		System.out.println(vo.getEndTime());
+		
+		List<OrdersVO> list=null;
+		try {
+			list = orderManagerService.queryByOrderInfos(vo);
+		} catch (Exception e) {
+			logger.error("查询出错"+e);
+		}
+		
+		pageBean.setTotalCount(list.size());
+		
+		request.setAttribute("pageBean", pageBean);
+		request.setAttribute("list", list);	
+		return "admin/mainbody/adminOrderbody";
+	}
+	
+	@RequestMapping("/adminOrderByOrderInfos")
+	public ModelAndView adminOrderByOrderInfos(OrdersVO vo,HttpServletRequest request){
+		System.out.println(vo);
+		PageBean<OrdersVO> pageBean=new PageBean<>();
+		ModelAndView view=new ModelAndView("admin/mainbody/adminOrderbody");
+		List<OrdersVO> list=null;
+		try {
+			list = orderManagerService.queryByOrderInfos(vo);
+		} catch (Exception e) {
+			logger.error("查询出错"+e);
+		}
+		pageBean.setTotalCount(list.size());
+		request.setAttribute("list", list);	
+		return view;
+	}
+}

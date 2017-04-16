@@ -1,0 +1,43 @@
+package com.oracle.ebp.controller;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.oracle.ebp.domain.PageBean;
+import com.oracle.ebp.domain.po.Ticket;
+import com.oracle.ebp.domain.po.TicketVO;
+import com.oracle.ebp.service.impl.TicketService;
+@Controller
+public class TicketManagerController {
+	
+	private Logger logger = LoggerFactory.getLogger(TicketManagerController.class);
+	
+	@Resource
+	private TicketService ticketService;
+	
+	@RequestMapping("/queryTicketByTime")
+	public String queryTicketByTime(TicketVO vo, HttpServletRequest request){
+		List<Ticket> list = null;
+		try {
+			list = ticketService.queryTicketByTime(vo);
+			long count=ticketService.count(vo);
+			request.setAttribute("list", list);
+			PageBean<Ticket> pageBean=new PageBean<>();
+			pageBean.setTotalCount((int) count);
+			request.setAttribute("pageBean",pageBean);
+		} catch (Exception e) {
+			logger.error("查询错误:=====>"+e);
+		}
+		return "admin/mainbody/adminTicketbody";
+	}
+	
+	
+	
+}

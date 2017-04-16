@@ -1,0 +1,61 @@
+package com.oracle.ebp.controller;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.oracle.ebp.domain.po.AdminUser;
+import com.oracle.ebp.exception.AdminUserEsception;
+import com.oracle.ebp.service.impl.AdminUserService;
+@Controller
+public class AdminUserController {
+		
+	@Resource
+	private AdminUserService adminUserService;
+
+	@RequestMapping(value="/AdminUserLogin",method=RequestMethod.POST)
+	public String login(HttpSession session,AdminUser adminUser){
+		
+		List<AdminUser> list = adminUserService.queryLogin(adminUser);
+		//失败跳转页面
+		try {
+			
+			if(list.isEmpty()){
+				throw new AdminUserEsception("没有您的相关信息!");
+				
+			}
+			if(list.size()>1){
+				throw new AdminUserEsception("出错啦!!!");
+			}
+			
+		} catch (AdminUserEsception e) {
+			
+			session.setAttribute("adminUserError", e.getMessage());
+			return "admin/adminindexlogin";
+		}
+		//放置session
+		session.setAttribute("adminUser", adminUser);
+		//成功跳转页面
+		return "admin/AdminIndex";	
+	}
+	
+	@RequestMapping("/adminLogout")
+	public String adminLogout(HttpSession session){
+		
+		AdminUser admin = (AdminUser) session.getAttribute("adminUser");
+		if(admin==null){
+			
+			return "admin/adminindexlogin";
+		}
+		session.setAttribute("admin", admin.getUserName());
+		session.removeAttribute("adminUser");
+		return "admin/adminindexlogin";
+	}
+	
+	
+}

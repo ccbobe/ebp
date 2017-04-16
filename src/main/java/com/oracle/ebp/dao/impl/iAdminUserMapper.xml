@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.oracle.ebp.dao.impl.IAdminUserDao" >
+	<select id="adminUserLogin"  resultType="AdminUser" parameterType="AdminUser">
+		select  username,password from adminuser where username=#{userName} and password=#{password}
+	</select>
+	
+	<select id="queryAll">
+		select aid,username from adminuser
+	</select>
+
+</mapper> 

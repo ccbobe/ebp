@@ -1,0 +1,32 @@
+package com.oracle.dao.test;
+
+import java.util.List;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.oracle.ebp.dao.impl.IUserDao;
+import com.oracle.ebp.domain.po.User;
+
+public class TestDao {
+	
+	private	ApplicationContext context=new ClassPathXmlApplicationContext("spring/applicationContext.xml");
+	
+	
+	@Autowired
+	private IUserDao userDao;
+	
+	
+	@Test
+	public void test(){
+		
+		
+		userDao = context.getBean(IUserDao.class);
+	    List<User> list = userDao.queryAll();
+		for (User user : list) {
+			System.out.println(user.getUserName());
+		}
+	}
+}

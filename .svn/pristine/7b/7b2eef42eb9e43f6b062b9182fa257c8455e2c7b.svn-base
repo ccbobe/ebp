@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oracle.ebp.dao.impl.ITicketDAO" >
+	
+	<sql id="insertticket">
+		descs,status,amount,price,balance
+	</sql>
+	<sql id="update">
+		descs=#{descs},startTime=#{startTime} , amount=#{amount},price=#{price},balance=#{balance}
+	</sql>
+	
+	<!-- 增加ticket -->
+	<insert id="persist" parameterType="Ticket" useGeneratedKeys="true" keyProperty="tid" >
+		insert into ticket (<include refid="insertticket"></include>) values 
+		(#{descs},#{status},#{amount},#{price},#{balance})
+	</insert>
+	<!-- 管理员修改ticket ok-->
+	<update id="update" parameterType="Ticket">
+		update ticket set <include refid="update"/>  where tid=#{tid}
+	</update>
+	<!-- 删除ticket -->
+	<delete id="remove"  parameterType="Ticket" >
+		delete from ticket where tid=#{tid}
+	</delete>
+	
+	<!-- 更新ticket状态  OK -->
+	<update id="updateStatus"  parameterType="Ticket" >
+		update ticket set status=#{status} where tid=#{tid}
+	</update>
+	
+	 <!-- 查询ticket更具时间 -->
+	 
+	 <select id="queryByPage"  resultType="Ticket"  >
+	 	select  <include refid="insertticket"></include> from ticket limit #{0},#{1}
+	 </select>
+	
+	<!-- 更具时间条件查询ticket -->
+	
+	<!-- 根据电话，姓名，用户，idcard查询 ticket-->
+	 <select id="queryByUserNameOrOther"  resultType="Ticket" resultOrdered="true" >
+	 	select  descs,startTime,amount,price,balance,status from ticket where 1=1
+	 	<choose>
+	 		<when test="#{ticket.startTime}!=null">
+	 			and startTime>#{ticket.startTime}
+	 		</when>
+			<when test="#{ticket.startTime}!=null">
+				and startTime<![CDATA[<]]>#{2}
+			</when>	 		
+	 	</choose>
+	 	
+	 	limit #{0},#{1}
+	 </select>
+	<!-- 默认查询ticket表中数据 Author：ZH -->
+	<select id="queryInfo" resultType="Ticket" >
+		select * from ticket where startTime >= #{0}
+	</select>
+</mapper> 

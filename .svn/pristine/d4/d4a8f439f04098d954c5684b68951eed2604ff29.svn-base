@@ -1,0 +1,47 @@
+package com.oracle.ebp.controller;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.oracle.ebp.domain.po.OrdersVO;
+import com.oracle.ebp.service.impl.OrderManagerService;
+@Controller
+public class OrderManagerController {
+	
+	private Logger logger=LoggerFactory.getLogger(OrderManagerController.class);
+	
+	@Resource
+	private OrderManagerService orderManagerService;
+	
+	@RequestMapping("/adminOrderBody")
+	public String adminOrderBody(){
+		
+		return "admin/mainbody/adminOrderbody";
+	}
+	
+	
+	@RequestMapping("/adminOrderBody")
+	public String adminOrderByTime(){
+		
+		return "admin/mainbody/adminOrderbody";
+	}
+	
+	@RequestMapping("/adminOrderBody")
+	public String adminOrderByOrderInfos(OrdersVO vo){
+		List<OrdersVO> list=null;
+		try {
+			list = orderManagerService.queryByOrderInfos(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "admin/mainbody/adminOrderbody";
+	}
+	
+	
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.oracle.ebp.dao.impl.IOrdersManagerDao" >
+	
+	<!-- 查询两日期之间数据 -->
+	<select id="queryByCommitTime"  resultType="OrdersVO" 
+		resultOrdered="true"  parameterType="OrdersVO"  >
+		SELECT
+			
+			o.oid AS oid,
+			ol.descs AS descs,
+			o.commitTime AS commitTime,
+			ol.amount AS amount,
+			u.userName AS userName,
+			u.name AS name,
+			u.idCard AS idCard
+			
+			FROM
+			
+			orders AS o
+			INNER JOIN orderlist AS ol ON ol.oid = o.oid
+			INNER JOIN user AS u ON o.uid = u.uid
+			
+			<where>
+				<if test="startTime != null">
+					AND o.commitTime <![CDATA[>=]]> #{startTime}
+				</if>
+				<if test="endTime != null">
+					AND o.commitTime <![CDATA[<=]]> #{endTime}
+				</if>
+			</where>
+			LIMIT #{currentPage},#{pageCount}
+	</select>
+	
+	
+
+</mapper> 

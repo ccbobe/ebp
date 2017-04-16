@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.oracle.ebp.dao.impl.IUserDao" >
+	
+	<sql id="userallfield">
+		uid,userName,name,gender,age,idCard,address,telno,regTime,balance,status,email
+	</sql>
+	
+	
+	<select id="queryAll"  resultType="User" useCache="true">
+		select  uid,username from user
+	</select>
+	<!-- ZH:用户登录查询验证 -->
+	<select id="queryUser" resultType="User" parameterType="User">
+		select * from user where 1=1
+		<choose>
+			<when test="userName != null">
+				and userName=#{userName}
+			</when>
+			<when test="password != null">
+				 and password=#{password}
+			</when>
+			<when test="idCard != null">
+				and idCard=#{idCard}
+			</when>
+			<when test="telno != null">
+				and telno=#{telno}
+			</when>
+		</choose>
+	</select>
+	<!-- 根据uid查询用户 -->
+	<select id="queryUserById" resultType="User">
+		select * from user where uid=#{0}
+	</select>
+	<!-- ZH:根据用户登录名进行查询 -->
+	<select id="queryUserByName" parameterType="User" resultType="User">
+		select * from user where userName=#{userName}
+	</select>
+	<!-- ZH:用户注册 -->
+	<insert id="persist" parameterType="User" useGeneratedKeys="true" keyProperty="uid" >
+		insert into user (userName,email,telno,password) values (#{userName},#{email},#{telno},#{password})
+	</insert>
+
+	<!-- 管理员修改状态  bobe-->
+	<update id="updateStatus" parameterType="User">
+		update user
+		<set>
+			<if test="status==0">status=1</if>
+			<if test="status==1">status=0</if>
+		</set>
+	 	where uid=#{uid}
+	</update>
+	
+	<!-- 查询状态码 -->
+	<select id="queryUserById" resultType="User" parameterType="int" >
+		select  status from user where uid=#{0}
+	</select>
+	
+	<select id="queryByPage"  resultType="User" parameterType="UserPO" >
+		select <include refid="userallfield"></include> from user  limit #{0},#{1}
+	</select>
+	<!-- ZH更新操作 -->
+	<update id="updateUser" parameterType="User">
+		update user set userName=#{userName},password=#{password},name=#{name},gender=#{gender},idCard=#{idCard},age=#{age},address=#{address},telno=#{telno},balance=#{balance} where uid = #{uid}
+	</update>
+	
+	<!-- user联合查询sql，根据时间条件，姓名，等信息查询  bobe测试OK-->
+	<select id="queryByCondition"  resultType="UserVO"  parameterType="UserVO" >
+		SELECT
+			uid,
+			userName,
+			name,
+			gender,
+			age,
+			idCard,
+			address,
+			telno,
+			regTime,
+			balance,
+			STATUS,
+			email
+		FROM
+			USER
+		
+		<where>
+			<if test="(startTime != null) and (' '.equals(startTime))"><!-- 开始时间 -->
+				AND regTime >=#{startTime}
+			</if>
+			
+			<if test="(endTime != null )and (' '.equals(endTime))"><!-- 结束时间 -->
+				AND regTime <![CDATA[<=]]>#{endTime}
+			</if>
+			
+			<if test="userNameOrName != null"><!-- 用户信息 -->
+				AND (userName=#{userNameOrName} or name=#{userNameOrName})
+			</if>
+			
+			<if test="idCard != null"><!-- 身份信息 -->
+				AND idCard=#{idCard}
+			</if>
+			
+			<if test="telno != null"><!-- 练习电话 -->
+				AND telno=#{telno}
+			</if>
+		</where>	
+			
+		ORDER BY
+			regTime ASC
+		LIMIT #{currentPage},#{pageCount}			
+	</select>
+	<!-- 信息模糊查询并且排序 -->
+	<select id="queryByVague"  resultType="UserVO" parameterType="UserVO">
+		SELECT
+			uid,
+			userName,
+			name,
+			gender,
+			age,
+			idCard,
+			address,
+			telno,
+			regTime,
+			balance,
+			STATUS,
+			email
+		FROM
+			USER
+		<where>
+			<if test="startTime != null"><!-- 开始时间 -->
+				AND regTime >= #{startTime}
+			</if>
+			
+			<if test="endTime != null"><!-- 结束时间 -->
+				AND regTime <![CDATA[<=]]>#{endTime}
+			</if>
+			
+			<if test="userNameOrName != null"><!-- 用户信息 -->
+				AND (userName like concat('%',#{userNameOrName},'%')   or name like concat('%',#{userNameOrName},'%'))
+			</if>
+			
+			<if test="idCard != null"><!-- 身份信息 -->
+				AND idCard like concat('%',#{idCard},'%')  
+			</if>
+			
+			<if test="telno != null"><!-- 练习电话 -->
+				AND telno like concat('%',#{telno},'%')
+			</if>
+		</where>	
+			
+		ORDER BY
+		<choose>
+			<when test="userNameOrName != null">
+				userName ASC, name ASC 
+			</when>
+			
+			<when test="idCard != null">
+				idCard ASC
+			</when>
+			
+			<when test="telno != null">
+				telno ASC
+			</when>
+			
+			<otherwise>
+				age ASC
+			</otherwise>
+		</choose>
+		LIMIT #{currentPage},#{pageCount}	
+	</select>
+	
+	
+	<!-- 查询数据条数 -->
+	<select id="getTotalCount"  resultType="int" >
+		select count(uid) from user;
+	</select>
+</mapper> 

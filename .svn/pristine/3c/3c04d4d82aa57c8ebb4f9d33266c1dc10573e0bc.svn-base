@@ -1,0 +1,90 @@
+package com.oracle.ebp.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Repository;
+
+import com.oracle.ebp.dao.impl.IAdminUserDao;
+import com.oracle.ebp.domain.po.AdminUser;
+import com.oracle.ebp.service.BaseService;
+@Repository
+public class AdminUserService implements BaseService<AdminUser, Integer> {
+	
+	@Resource
+	private IAdminUserDao adminUserDao;
+	
+	
+	/**
+	 * 创建管理员
+	 */
+	public int persist(AdminUser entity) {
+		
+		return 0;
+	}
+	/**
+	 * 移除管理员
+	 */
+	public int remove(Integer pk) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * 移除管理员
+	 * @see com.oracle.ebp.service.BaseService#remove(java.lang.Object)
+	 */
+	/**
+	 * 移除管理员
+	 */
+	public int remove(AdminUser entity) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * 修改管理员
+	 * @see com.oracle.ebp.service.BaseService#update(java.lang.Object)
+	 */
+	public void update(AdminUser entity) {
+		// TODO Auto-generated method stub
+		
+	}
+	/**
+	 * 查询所有管理员
+	 */
+	public List<AdminUser> query() {
+		
+		try {
+			return adminUserDao.queryAll();
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * 管理员登录
+	 * @param adminUser
+	 * @return
+	 */
+	public List<AdminUser> queryLogin(AdminUser adminUser ) {
+		
+		return adminUserDao.adminUserLogin(adminUser);
+	}
+	
+	
+	
+	
+	/**
+	 * 登录
+	 */
+	public List<AdminUser> query(AdminUser adminUser) {
+		
+		List<AdminUser> list=adminUserDao.adminUserLogin(adminUser);
+		
+		return list ;
+	}
+
+}

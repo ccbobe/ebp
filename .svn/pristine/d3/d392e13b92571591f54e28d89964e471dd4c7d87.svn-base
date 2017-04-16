@@ -1,0 +1,13 @@
+package com.oracle.ebp.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+@Controller
+public class UserManagerController {
+	
+	@RequestMapping("/updateStatus")
+	public String updateStatus(){
+		
+		return "";
+	}
+}

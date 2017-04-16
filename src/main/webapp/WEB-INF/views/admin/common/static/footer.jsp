@@ -1,0 +1,5 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<div id="footer">
+    <p>版权所有碟派科技有限公司</p>
+    <p>备案号:京-3032152541</p>
+</div>

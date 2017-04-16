@@ -1,0 +1,5 @@
+package com.oracle.ebp.domain;
+
+public class User {
+
+}

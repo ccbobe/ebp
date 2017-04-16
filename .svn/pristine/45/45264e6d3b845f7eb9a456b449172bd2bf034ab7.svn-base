@@ -1,0 +1,8 @@
+package com.oracle.ebp.domain.po;
+
+public class TicketPO {
+	private Ticket ticket;
+	
+	
+	
+}
