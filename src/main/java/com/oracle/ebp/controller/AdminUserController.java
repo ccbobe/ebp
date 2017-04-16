@@ -1,13 +1,16 @@
 package com.oracle.ebp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.oracle.ebp.domain.po.AdminUser;
 import com.oracle.ebp.exception.AdminUserException;
@@ -93,6 +96,18 @@ public class AdminUserController {
 		return "admin/mainbody/adminindexbody";
 	}
 	
+	
+	@RequestMapping("/VueDemo")
+	public String VueDemo(HttpSession session,Model model ){
+	 List<String> list=new	ArrayList<>();
+		list.add("a");
+		list.add("b");
+		list.add("c");
+		list.add("d");
+		list.add("e");
+		model.addAttribute("list", list);
+		return "admin/VueDemo";
+	}
 	
 	
 	

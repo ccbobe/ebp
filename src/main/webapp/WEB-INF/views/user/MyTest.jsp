@@ -6,4 +6,3 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 
 <c:set  var="title" scope="request" value="用户首页" ></c:set>
-<%@ include file="/WEB-INF/views/user/common/layout/layout.jsp" %>
