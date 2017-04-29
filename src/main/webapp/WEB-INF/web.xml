@@ -91,8 +91,35 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   
+  <!-- hessianservlet配置 -->
+  <servlet>
+  	 <servlet-name>hessian-service</servlet-name>
+     <servlet-class>
+        com.caucho.hessian.server.HessianServlet
+     </servlet-class>
+      <init-param>            
+          <param-name>home-class</param-name>            
+	          <param-value>
+	          <!-- 服务实现类 -->
+	            com.oracle.ebp.hessian.HelloServiceImpl
+	          </param-value>
+         </init-param> 
+         <init-param>            
+            <param-name>home-api</param-name>
+            <!-- 服务接口 -->
+            <param-value>com.oracle.ebp.hessian.HelloService</param-value>
+         </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>hessian-service</servlet-name>
+  	<url-pattern>/hessian</url-pattern>
+  </servlet-mapping>
+  
   <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    <listener-class>
+    	org.springframework.web.context.ContextLoaderListener
+    </listener-class>
   </listener>
   <welcome-file-list>
     <welcome-file>/</welcome-file>
